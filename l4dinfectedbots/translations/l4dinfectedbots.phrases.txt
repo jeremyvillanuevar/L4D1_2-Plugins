@@ -78,6 +78,7 @@
 		"en"			"Numbers of Alive Survivor: {1}, Infected Limit: {2}, Tank Health: {3}, Common Limit: {4}"
 		"zho"			"目前倖存者存活人數: {1}, 特感上限: {2}, Tank血量: {3}, 殭屍數量: {4}"
 		"chi"			"目前生还者存活人数: {1}, 特感上限: {2}, Tank血量: {3}, 僵尸数量: {4}"
+		"es"			"Número de Supervivientes Vivos: {1}, Límite de Infectados: {2}, Vida del Tank: {3}, Límite de Comunes: {4}"
 	}
 	"Current status2"
 	{
@@ -85,6 +86,7 @@
 		"en"			"Numbers of Alive Survivor: {1}, Infected Limit: {2}, Common Limit: {3}"
 		"zho"			"目前倖存者存活人數: {1}, 特感上限: {2}, 殭屍數量: {3}"
 		"chi"			"目前生还者存活人数: {1}, 特感上限: {2}, 僵尸数量: {3}"
+		"es"			"Número de Supervivientes Vivos: {1}, Límite de Infectados: {2}, Límite de Comunes: {3}"
 	}
 	"Current status3"
 	{
@@ -92,6 +94,7 @@
 		"en"			"Numbers of Alive Survivor: {1}, Infected Limit: {2}, Tank Health: {3}"
 		"zho"			"目前倖存者存活人數: {1}, 特感上限: {2}, Tank血量: {3}"
 		"chi"			"目前生还者存活人数: {1}, 特感上限: {2}, Tank血量: {3}"
+		"es"			"Número de Supervivientes Vivos: {1}, Límite de Infectados: {2}, Vida del Tank: {3}"
 	}
 	"Current status4"
 	{
@@ -99,18 +102,21 @@
 		"en"			"Numbers of Alive Survivor: {1}, Infected Limit: {2}"
 		"zho"			"目前倖存者存活人數: {1}, 特感上限: {2}"
 		"chi"			"目前生还者存活人数: {1}, 特感上限: {2}"
+		"es"			"Número de Supervivientes Vivos: {1}, Límite de Infectados: {2}"
 	}
 	"Can't Join The Infected Team."
 	{
 		"en"			"Can't Join The Infected Team."
 		"zho"			"無法加入感染者."
 		"chi"			"无法加入感染者."
+		"es"			"Prohibido entrar al Equipo de Infectados."
 	}
 	"sm_zs"
 	{
 		"en"			"Attention! You can type !zs to suicide if get stuck or too far from survivors."
 		"zho"			"注意!卡住、無法通過障礙物可於聊天視窗輸入!zs自殺."
 		"chi"			"注意!卡住或者无法通过障碍物时可于聊天窗输入!zs自杀."
+		"es"			"Alerta! Puedes escribir !zs para reaparecer.
 	}
 	"Hud INFO"
 	{
