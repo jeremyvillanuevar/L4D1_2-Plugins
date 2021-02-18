@@ -2362,7 +2362,9 @@ public Action DisposeOfCowards(Handle timer, int coward)
 {
 	if (coward && IsClientInGame(coward) && IsFakeClient(coward) && GetClientTeam(coward) == TEAM_INFECTED && !IsPlayerTank(coward) && PlayerIsAlive(coward))
 	{
-		//PrintToChatAll("%d",GetEntProp(coward, Prop_Send, "m_hasVisibleThreats"));
+		#if DEBUG
+		PrintToServer("%d",GetEntProp(coward, Prop_Send, "m_hasVisibleThreats"));
+		#endif
 		// Check to see if the infected thats about to be slain sees the survivors. If so, kill the timer and make a int one.
 		if (GetEntProp(coward, Prop_Send, "m_hasVisibleThreats") || L4D2_GetSurvivorVictim(coward) != -1)
 		{
@@ -2757,6 +2759,9 @@ public Action ColdDown_Timer(Handle timer)//up here determine h_PlayerAddZombies
 
 public void OnClientDisconnect(int client)
 {
+	#if DEBUG
+	PrintToServer("[TS] OnClientDisconnect");
+	#endif
 	if(CheckRealPlayers_InSV(client) == false)
 	{
 		ResetConVar(FindConVar("sb_all_bot_game"), true, true);
@@ -2781,9 +2786,6 @@ public void OnClientDisconnect(int client)
 		int spawnTime =SpawnTime(g_bAdjustSpawnTimes);
 		if(spawnTime<=0)
 			spawnTime = 1;
-		#if DEBUG
-		PrintToServer("[TS] OnClientDisconnect");
-		#endif
 		CreateTimer(float(spawnTime), Spawn_InfectedBot);
 		InfectedBotQueue++;
 	}
@@ -5018,10 +5020,6 @@ int CheckAliveSurvivorPlayers_InSV()
 	for (int i = 1; i < MaxClients+1; i++)
 		if(IsClientConnected(i)&&IsClientInGame(i)&&GetClientTeam(i) == TEAM_SURVIVORS && IsPlayerAlive(i))
 			iPlayersInAliveSurvivors++;
-//	#if DEBUG
-	PrintToServer("[TS] Alive Survivors %d",iPlayersInAliveSurvivors);
-//	#endif
-
 	return iPlayersInAliveSurvivors;
 }
 
