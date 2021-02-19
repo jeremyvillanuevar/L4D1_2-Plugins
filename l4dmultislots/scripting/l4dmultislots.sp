@@ -686,7 +686,7 @@ void ResetTimer()
 bool SpawnFakeClient()
 {
 	//check if there are any alive survivor in server
-	int iAliveSurvivor = GetRandomClient();
+	int iAliveSurvivor = GetAheadClient();//GetRandomClient();
 	if(iAliveSurvivor == 0)
 		return false;
 		
@@ -814,6 +814,49 @@ int GetRandomClient()
 		}
 	}
 	return (iClientCount == 0) ? 0 : iClients[GetRandomInt(0, iClientCount - 1)];
+}
+
+int GetAheadClient()
+{	
+	float flow;
+	int count, countflow, index;
+	// Get survivors flow distance
+	ArrayList aList = new ArrayList(2);
+	// Account for incapped
+	int clients[MAXPLAYERS+1];
+	int client=0;
+	countflow=0;
+	// Check valid survivors, count incapped
+	for( int i = 1; i <= MaxClients; i++ )
+	{
+		if( IsClientInGame(i) && GetClientTeam(i) == 2 && IsPlayerAlive(i) )
+		{
+			clients[count++] = i;
+		}
+	}
+
+	for( int i = 0; i < count; i++ )
+	{
+		client = clients[i];
+		// Ignore bot
+		if(IsFakeClient(client))
+			continue;
+		flow = L4D2Direct_GetFlowDistance(client);
+		if( flow && flow != -9999.0 ) // Invalid flows
+		{
+			countflow++;
+			index = aList.Push(flow);
+			aList.Set(index, client, 1);
+		}
+	}
+	// Incase not enough players or some have invalid flow distance, we still need an average.
+	if( countflow >= 1 )
+	{
+		aList.Sort(Sort_Descending, Sort_Float);
+		client = aList.Get(0, 1);
+	}
+	delete aList;
+	return client;
 }
 
 void SetHealth( int client )
