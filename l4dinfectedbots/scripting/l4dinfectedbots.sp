@@ -733,6 +733,7 @@ ConVar h_SecondWaveRelax_Enable; // Related to the second wave
 ConVar h_SecondWaveRelaxOnFinale_Enable;
 ConVar h_PlayerMultiplyFinalLimitScale,h_PlayerMultiplyFinalLimit;
 ConVar h_SecondWaveRelaxTimeScale,h_SecondWaveRelaxTime;
+ConVar h_SecondWaveFinalRelaxTimeScale,h_SecondWaveFinalRelaxTime;
 
 
 //Handle
@@ -802,8 +803,9 @@ float g_fPlayerAddCommonLimitScale;
 float g_fPlayerAddCommonLimit;
 float g_fPlayerMultiplyFinalLimitScale;
 float g_fPlayerMultiplyFinalLimit;
-float g_fSecondWaveRelaxTime;
-float g_fSecondWaveRelaxTimeScale;
+float g_fSecondWaveRelaxTime, g_fSecondWaveRelaxTimeScale;
+float g_fSecondWaveFinalRelaxTime, g_fSecondWaveFinalRelaxTimeScale;
+
 
 public Plugin myinfo = 
 {
@@ -953,6 +955,8 @@ public void OnPluginStart()
 	h_SecondWaveRelaxTime = CreateConVar("l4d_infectedbots_secondwave_time", "2", "time = 'time'÷ 'secondwave_time_scale' × 'secondwave_time'.", FCVAR_NOTIFY, true, 0.0); 
 	h_SecondWaveRelaxTimeScale = CreateConVar("l4d_infectedbots_secondwave_time_scale", "1", "time = 'time'÷ 'secondwave_time_scale' × 'secondwave_time'.", FCVAR_NOTIFY, true, 1.0); 
 
+	h_SecondWaveFinalRelaxTime = CreateConVar("l4d_infectedbots_secondwave_final_time", "2", "time = 'time'÷ 'secondwave_finale_time_scale' × 'secondwave_finale_time'.", FCVAR_NOTIFY, true, 0.0); 
+	h_SecondWaveFinalRelaxTimeScale = CreateConVar("l4d_infectedbots_secondwave_final_time_scale", "1", "time = 'time'÷ 'secondwave_finale_time_scale' × 'secondwave_finale_time'.", FCVAR_NOTIFY, true, 1.0); 
 	
 	h_GameMode = FindConVar("mp_gamemode");
 	h_GameMode.AddChangeHook(ConVarGameMode);
@@ -1020,6 +1024,8 @@ public void OnPluginStart()
 	h_SecondWaveRelaxOnFinale_Enable.AddChangeHook(ConVarChanged_Cvars);
 	h_SecondWaveRelaxTime.AddChangeHook(ConVarChanged_Cvars);
 	h_SecondWaveRelaxTimeScale.AddChangeHook(ConVarChanged_Cvars);
+	h_SecondWaveFinalRelaxTime.AddChangeHook(ConVarChanged_Cvars);
+	h_SecondWaveFinalRelaxTimeScale.AddChangeHook(ConVarChanged_Cvars);
 	h_PlayerMultiplyFinalLimit.AddChangeHook(ConVarChanged_Cvars);
 	h_PlayerMultiplyFinalLimitScale.AddChangeHook(ConVarChanged_Cvars);
 	
@@ -1165,6 +1171,8 @@ void GetCvars()
 	g_fPlayerMultiplyFinalLimit= h_PlayerMultiplyFinalLimit.FloatValue;
 	g_fSecondWaveRelaxTimeScale= h_SecondWaveRelaxTimeScale.FloatValue;
 	g_fSecondWaveRelaxTime= h_SecondWaveRelaxTime.FloatValue;
+	g_fSecondWaveFinalRelaxTimeScale= h_SecondWaveFinalRelaxTimeScale.FloatValue;
+	g_fSecondWaveFinalRelaxTime= h_SecondWaveFinalRelaxTime.FloatValue;
 }
 
 public void ConVarMaxPlayerZombies(ConVar convar, const char[] oldValue, const char[] newValue)
@@ -5609,9 +5617,16 @@ int SpawnTime(bool Adjust)
 	PrintToServer("[TS] InfectedBotsSecondWave %d",InfectedBotsSecondWave); 
 	PrintToServer("[TS] g_fSecondWaveRelaxTime %f",g_fSecondWaveRelaxTime); 
 	PrintToServer("[TS] g_fSecondWaveRelaxTimeScale %f",g_fSecondWaveRelaxTimeScale); 
+	PrintToServer("[TS] g_fSecondWaveFinalRelaxTime %f",g_fSecondWaveFinalRelaxTime); 
+	PrintToServer("[TS] g_fSecondWaveFinalRelaxTimeScale %f",g_fSecondWaveFinalRelaxTimeScale); 
 	#endif
 	if (InfectedBotsSecondWave) 
-		spawnTime=RoundFloat(float(spawnTime)*g_fSecondWaveRelaxTime/g_fSecondWaveRelaxTimeScale);
+	{
+		if (FinaleStarted)
+			spawnTime=RoundFloat(float(spawnTime)*g_fSecondWaveFinalRelaxTime/g_fSecondWaveFinalRelaxTimeScale);
+		else
+			spawnTime=RoundFloat(float(spawnTime)*g_fSecondWaveRelaxTime/g_fSecondWaveRelaxTimeScale);
+	}
 	//#if DEBUG 
 	PrintToServer("[TS] spawnTime %d, InfectedBotsSecondWave %d",spawnTime,InfectedBotsSecondWave); 
 	//#endif	
