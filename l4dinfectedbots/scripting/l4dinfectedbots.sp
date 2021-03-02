@@ -1784,6 +1784,8 @@ public void OnMapStart()
 	GetCurrentMap(sMap, sizeof(sMap));
 	if(StrEqual("c6m1_riverbank", sMap, false))
 		g_bSpawnWitchBride = true;
+	
+	FinaleStarted = false;
 }
 
 public void OnMapEnd()
